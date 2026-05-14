@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+       <!-- Link Font & Ikon -->
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/struktur.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/pintasan.css') }}">
+        <script src="https://unpkg.com/feather-icons"></script>
+
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                <a href="{{ url('/') }}" class="navbar__link"><i data-feather="home"></i><span>Home</span></a>
+                </li>
+                <li class="navbar__item">
+                <a href="{{ route('data.index') }}" class="navbar__link"><i data-feather="database"></i><span>Data</span></a>        
+                </li>
+                <li class="navbar__item">
+                <a href="{{ route('pintasan.index') }}" class="navbar__link"><i data-feather="folder"></i><span>Pintasan</span></a>        
+                </li>
+                <li class="navbar__item">
+                <a href="#" class="navbar__link"><i data-feather="help-circle"></i><span>Help</span></a>        
+                </li>
+                <li class="navbar__item">
+                <a href="#" class="navbar__link"><i data-feather="settings"></i><span>Settings</span></a>        
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Bagian ini akan diisi oleh konten halaman masing-masing -->
+        <main>
+            @yield('content')
+        </main>
+    
+        <script>
+            feather.replace();
+        </script>
+    </body>
+
+</html>

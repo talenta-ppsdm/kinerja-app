@@ -1,0 +1,82 @@
+/* Mengatur tata letak kartu tombol berjajar otomatis */
+    .shortcut-grid {
+        display: grid;
+        /* Menaikkan minmax ke 400px agar kartu melebar mengikuti ruang kontainer */
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 25px; /* Jarak antar kartu sedikit dilebarkan */
+        margin-top: 10px;
+    }
+
+    /* Mengatur ukuran dalam komponen kartu */
+    .shortcut-card {
+        background-color: #f2f6f9;
+        border: 2px solid #1b3341;
+        border-radius: 12px;
+        padding: 22px 25px; /* Menambah padding dalam kartu agar isi tidak sesak */
+        display: flex;
+        align-items: center;
+        text-decoration: none !important;
+        transition: all 0.3s ease;
+    }
+
+    /* Efek interaktif saat mouse diarahkan ke tombol */
+    .shortcut-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        border-color: #cbd1a1; /* Garis tepi berubah ke warna emas myPKP saat dihover */
+    }
+
+    /* Lingkaran pembungkus ikon */
+    .shortcut-icon-wrapper {
+        background-color: #244253;
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .shortcut-icon {
+        color: #cbd1a1; /* Ikon berwarna emas */
+        width: 24px;
+        height: 24px;
+    }
+
+    .shortcut-info {
+        flex-grow: 1;
+        padding-right: 15px;
+    }
+
+    /* Warna judul di dalam kartu agar kontras (gelap) */
+    .shortcut-info h3 {
+        margin: 0 0 5px 0;
+        color: #1b3341;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Deskripsi ringkas link */
+    .shortcut-info p {
+        margin: 0;
+        color: #556773;
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    /* Ikon tanda panah di sudut kanan kartu */
+    .arrow-icon {
+        color: #1b3341;
+        width: 18px;
+        height: 18px;
+        opacity: 0.5;
+        transition: transform 0.3s ease;
+    }
+
+    .shortcut-card:hover .arrow-icon {
+        opacity: 1;
+        transform: translateX(5px);
+        color: #244253;
+    }

@@ -1,0 +1,135 @@
+/* Container Utama */
+.org-container {
+    background-color: #244253; /* Warna dasar sesuai image_bc7a21.png */
+    border-radius: 15px;
+    padding: 75px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    min-height: 80vh;
+}
+
+/* Bagian Pimpinan */
+.leader-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.main-person {
+    text-align: center;
+    max-width: 300px;
+}
+
+.main-person img {
+    width: 120px;
+    height: 180px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Garis Penghubung */
+.connector-line {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 65%;
+    margin: 30px auto;
+}
+
+/* Grid Kartu Tim */
+.team-grid {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap; /* Agar otomatis ke bawah di layar kecil */
+    margin-bottom: 15px;
+}
+
+/* Card Personel */
+.card-person-special {
+    background: rgba(255, 255, 255, 0.08); /* Efek transparan */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    flex: 1;
+    min-width: 970px;
+    max-width: 450px;
+    transition: transform 0.3s ease;
+}
+
+/* Card Personel */
+.card-person {
+    background: rgba(255, 255, 255, 0.08); /* Efek transparan */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    flex: 1;
+    min-width: 350px;
+    max-width: 450px;
+    transition: transform 0.3s ease;
+}
+
+.card-person:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.card-header img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #b7972e;
+}
+
+/* Tipografi */
+.name-text {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    margin-left: 10px;
+}
+
+.role-title {
+    font-size: 0.65rem;
+    font-weight: 900;
+    background: #f1c40f;
+    color: #2c3e50;
+    padding: 3px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin-left: 10px;
+}
+
+/* List Anggota */
+.list-sub {
+    list-style: none;
+    padding: 15px 0 0 0;
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.list-sub li {
+    font-size: 0.85rem;
+    padding: 5px 0;
+    color: #dfe6e9;
+    display: flex;
+    align-items: center;
+}
+
+.small-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    opacity: 0.7;
+}
