@@ -11,8 +11,8 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/struktur.css') }}">
         <link rel="stylesheet" href="{{ asset('css/pintasan.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.min.css') }}">
         <script src="https://unpkg.com/feather-icons"></script>
-
     </head>
 
     <body>
@@ -22,7 +22,7 @@
                 <a href="{{ url('/') }}" class="navbar__link"><i data-feather="home"></i><span>Home</span></a>
                 </li>
                 <li class="navbar__item">
-                <a href="{{ route('data.index') }}" class="navbar__link"><i data-feather="database"></i><span>Data</span></a>        
+                <a href="{{ route('evaluasi.index') }}" class="navbar__link"><i data-feather="database"></i><span>Data</span></a>        
                 </li>
                 <li class="navbar__item">
                 <a href="{{ route('pintasan.index') }}" class="navbar__link"><i data-feather="folder"></i><span>Pintasan</span></a>        

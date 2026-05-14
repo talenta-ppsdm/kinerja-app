@@ -1,17 +1,22 @@
 <?php
 
+use App\Http\Controllers\SkpEvaluasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('layouts/mainLayouts');
+    return view('welcome');
 });
 
 // Menuju halaman Rekapitulasi Data
-Route::get('/olah_data', function () {
-    return view('olah_data');
-})->name('data.index');
+Route::get('/monitoring-evaluasi', function () {
+    return view('monitoring_evaluasi');
+})->name('evaluasi.index');
+
+Route::post('import/evaluasi-skp', [SkpEvaluasiController::class, 'import'])->name('import.evaluasi');
 
 // Menuju halaman Pintasan
 Route::get('/pintasan', function () {
     return view('pintasan');
 })->name('pintasan.index');
+
+
