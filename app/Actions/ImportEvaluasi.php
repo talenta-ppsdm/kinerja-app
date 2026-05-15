@@ -91,6 +91,7 @@ class ImportEvaluasi
                 ['nip' => $dataSkp['nip']],
                 $dataSkp
             );
+            
 
             $dataEvaluasi = [
                 'predikat_tw1' => ($map['predikat_tw1'] !== null) ? (string)($row[$map['predikat_tw1']] ?? '') : '',
