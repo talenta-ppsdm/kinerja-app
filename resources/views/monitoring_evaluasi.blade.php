@@ -34,32 +34,87 @@
                                     <th style="width: 20%;">Unit Kerja</th>
                                     <th style="width: 25%;">Pejabat Penilai Kinerja</th>
                                     <th style="width: 15%;">Periode</th>
+                                    <th style="width: 15%;">Triwulan I</th>
+                                    <th style="width: 15%;">Triwulan II</th>
+                                    <th style="width: 15%;">Triwulan III</th>
+                                    <th style="width: 15%;">Triwulan IV</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php 
+                                    $no = 1; 
+                                
+                                    $getBadgeColor = function($predikat) {
+                                        return match($predikat) {
+                                            'Sangat Baik', 'Baik' => 'success',
+                                            'Cukup', 'Butuh Perbaikan' => 'warning',
+                                            'Belum Dinilai' => 'primary',
+                                            'Kurang', 'Sangat Kurang' => 'danger',
+                                            default => 'secondary',
+                                        };
+                                    };
+                                @endphp
+                                @foreach($skpEvaluasi as $index => $evaluasi)
                                 <tr>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $no++ }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->nama ?? '' }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->jabatan ?? '' }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->golongan ?? '' }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->unit_kerja ?? '' }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->ppk ?? '' }}</p>
                                     </td>
                                     <td class="font-w600 font-size-sm">
-                                        <a href="be_pages_generic_profile.html">Alice Moore</a>
+                                        <p>{{ $evaluasi->masterSkp->periode ?? '' }}</p>
+                                    </td>
+                                    <td class="font-w600 font-size-sm">
+                                        <p>
+                                            @if($evaluasi->predikat_tw1)
+                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw1) }}">
+                                                    {{ $evaluasi->predikat_tw1 }}
+                                                </span>    
+                                            @endif
+                                        </p>
+                                    </td>
+                                    <td class="font-w600 font-size-sm">
+                                        <p>
+                                            @if($evaluasi->predikat_tw1)
+                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw2) }}">
+                                                    {{ $evaluasi->predikat_tw2 }}
+                                                </span>    
+                                            @endif
+                                        </p>
+                                    </td>
+                                    <td class="font-w600 font-size-sm">
+                                       <p>
+                                            @if($evaluasi->predikat_tw1)
+                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw3) }}">
+                                                    {{ $evaluasi->predikat_tw3 }}
+                                                </span>    
+                                            @endif
+                                        </p>
+                                    </td>
+                                    <td class="font-w600 font-size-sm">
+                                        <p>
+                                            @if($evaluasi->predikat_tw1)
+                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw) }}">
+                                                    {{ $evaluasi->predikat_tw4 }}
+                                                </span>    
+                                            @endif
+                                        </p>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

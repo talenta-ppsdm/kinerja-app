@@ -7,11 +7,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Menuju halaman Rekapitulasi Data
-Route::get('/monitoring-evaluasi', function () {
-    return view('monitoring_evaluasi');
-})->name('evaluasi.index');
+// Menuju halaman Monitoring Evaluasi
+// Route::get('/monitoring-evaluasi', function () {
+//     return view('monitoring_evaluasi');
+// })->name('evaluasi.index');
 
+Route::get('/monitoring-evaluasi', [SkpEvaluasiController::class, 'index'])->name('evaluasi.index');
 Route::post('import/evaluasi-skp', [SkpEvaluasiController::class, 'import'])->name('import.evaluasi');
 
 // Menuju halaman Pintasan

@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ImportEvaluasi;
+use App\Models\SkpEvaluasi;
 use Illuminate\Http\Request;
 
 class SkpEvaluasiController extends Controller
 {
+    public function index()
+    {
+        $skpEvaluasi = SkpEvaluasi::with('masterSkp')->get();
+        return view('monitoring_evaluasi', compact('skpEvaluasi'));
+    }
+
     public function import(Request $request, ImportEvaluasi $importEvaluasi)
     {
         $request->validate([
