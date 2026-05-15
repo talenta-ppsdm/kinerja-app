@@ -60,7 +60,8 @@
                             </thead>
                             <tbody>
                                 @php 
-                                    $no = 1; 
+                                    $no = 0;
+                                    $groupedEvaluasi = $skpEvaluasi->groupBy(fn($item) => $item->masterSkp->nip);
                                 
                                     $getBadgeColor = function($predikat) {
                                         return match($predikat) {
@@ -72,66 +73,51 @@
                                         };
                                     };
                                 @endphp
-                                @foreach($skpEvaluasi as $index => $evaluasi)
-                                <tr>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $no++ }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->nama ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->jabatan ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->golongan ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->unit_kerja ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->ppk ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>{{ $evaluasi->masterSkp->periode ?? '' }}</p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>
-                                            @if($evaluasi->predikat_tw1)
-                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw1) }}">
-                                                    {{ $evaluasi->predikat_tw1 }}
-                                                </span>    
-                                            @endif
-                                        </p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>
-                                            @if($evaluasi->predikat_tw1)
-                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw2) }}">
-                                                    {{ $evaluasi->predikat_tw2 }}
-                                                </span>    
-                                            @endif
-                                        </p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                       <p>
-                                            @if($evaluasi->predikat_tw1)
-                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw3) }}">
-                                                    {{ $evaluasi->predikat_tw3 }}
-                                                </span>    
-                                            @endif
-                                        </p>
-                                    </td>
-                                    <td class="font-w600 font-size-sm">
-                                        <p>
-                                            @if($evaluasi->predikat_tw1)
-                                                <span class="badge badge-{{ $getBadgeColor($evaluasi->predikat_tw) }}">
-                                                    {{ $evaluasi->predikat_tw4 }}
-                                                </span>    
-                                            @endif
-                                        </p>
-                                    </td>
-                                </tr>
+                                @foreach($groupedEvaluasi as $nip => $items)
+                                    @php $no++; @endphp
+
+                                    @foreach($items as $index => $evaluasi)
+                                    <tr>
+                                        @if($index === 0)
+                                            <td rowspan="{{ $items->count() }}" class="text-center" style="vertical-align: middle;">
+                                                {{ $no }}
+                                            </td>
+                                            <td rowspan="{{ $items->count() }}" style="vertical-align: middle;">
+                                                <p class="font-w600 mb-0">{{ $evaluasi->masterSkp->nama ?? '' }}</p>
+                                                <small class="text-muted">{{ $evaluasi->masterSkp->nip ?? '' }}</small>
+                                            </td>
+                                        @endif
+                                        
+                                        <td class="font-w600 font-size-sm">
+                                            <p>{{ $evaluasi->masterSkp->jabatan ?? '' }}</p>
+                                        </td>
+                                        <td class="font-w600 font-size-sm">
+                                            <p>{{ $evaluasi->masterSkp->golongan ?? '' }}</p>
+                                        </td>
+                                        <td class="font-w600 font-size-sm">
+                                            <p>{{ $evaluasi->masterSkp->unit_kerja ?? '' }}</p>
+                                        </td>
+                                        <td class="font-w600 font-size-sm">
+                                            <p>{{ $evaluasi->masterSkp->ppk ?? '' }}</p>
+                                        </td>
+                                        <td class="font-w600 font-size-sm">
+                                            <p>{{ $evaluasi->masterSkp->periode ?? '' }}</p>
+                                        </td>
+
+                                        @foreach(['tw1', 'tw2', 'tw3', 'tw4'] as $tw)
+                                        @php $field = "predikat_$tw"; @endphp
+                                            <td class="text-center">
+                                                @if($evaluasi->$field)
+                                                    <span class="badge badge-{{ $getBadgeColor($evaluasi->$field) }}">
+                                                        {{ $evaluasi->$field }}
+                                                    </span>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
