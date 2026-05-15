@@ -12,7 +12,7 @@
                         ['label' => 'Baik', 'key' => 'baik'],
                         ['label' => 'Butuh Perbaikan', 'key' => 'butuh_perbaikan'],
                         ['label' => 'Kurang', 'key' => 'kurang'],
-                        ['label' => 'Sangat Kurang', 'key' => 's_kurang'],
+                        ['label' => 'Sangat Kurang', 'key' => 'sangat_kurang'],
                     ];
                 @endphp
 
@@ -22,7 +22,6 @@
                             <div class="block-content block-content-full">
                                 <div class="font-size-sm font-w600 text-uppercase text-muted">{{ $card['label'] }}</div>
                                 <div class="font-size-h2 font-w400 text-dark">
-                                    {{-- Menggunakan null coalescing (??) agar tidak error jika data kosong --}}
                                     {{ number_format(($rekap_predikat[$card['key']] ?? collect())->count(), 0, ',', '.') }}
                                 </div>
                             </div>
