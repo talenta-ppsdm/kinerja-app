@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Actions\ImportEvaluasi;
 use App\Models\SkpEvaluasi;
+use App\Repositories\SkpEvaluasiRepository;
+use App\Repositories\SkpRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SkpEvaluasiController extends Controller
 {
+    protected SkpEvaluasiRepository $skpEvaluasiRepository;
+    protected SkpRepository $skpRepository;
+
+    public function __construct(SkpEvaluasiRepository $skpEvaluasiRepository, SkpRepository $skpRepository)
+    {
+        $this->skpEvaluasiRepository = $skpEvaluasiRepository;
+        $this->skpRepository = $skpRepository;
+    }
+
     public function index()
     {
         $skpEvaluasi = SkpEvaluasi::with('masterSkp')->get();
@@ -20,16 +32,14 @@ class SkpEvaluasiController extends Controller
         $request->validate([
             'file_excel' => 'required|mimes:xlsx,xls'
         ]);
-        try
-         {
-            // $importEvaluasi->execute($request->file('file_excel')->getRealPath());
 
+        try{
             // Load excel file
             $spreadsheet = IOFactory::load($request->file('file_excel')->getRealPath());
             $sheet = $spreadsheet->getActiveSheet();
             $rows = $sheet->toArray();
 
-            // 1. Normalisasi Header agar tidak case-sensitive
+            // Normalisasi Header agar tidak case-sensitive
             $header = $rows[0];
             $normalizedHeader = array_map(function ($value) {
                 return mb_strtolower(trim((string) $value));
@@ -45,7 +55,7 @@ class SkpEvaluasiController extends Controller
                 return null;
             };
 
-            // 2. Mapping Isi Header ke Database
+            // Mapping Isi Header ke Database
             $map = [
                 'nama'           => $findColumn(['nama']),
                 'nip'            => $findColumn(['nip']),
@@ -99,30 +109,36 @@ class SkpEvaluasiController extends Controller
                     'periode'        => ($map['periode'] !== null) ? (string)($row[$map['periode']] ?? '') : '',
                     'tahun'          => ($map['tahun'] !== null) ? (string)($row[$map['tahun']] ?? '') : '',
                 ];
-                
-                // $skp = Skp::updateorCreate(
-                //     ['nip' => $dataSkp['nip']],
-                //     $dataSkp
-                // );
-                
 
+                $skp = $this->skpRepository->firstOrCreateSkp(
+                    [
+                        'nip' => $dataSkp['nip'], 
+                        'jabatan' => $dataSkp['jabatan'],
+                        'ppk' => $dataSkp['ppk'],
+                    ], $dataSkp
+                );
+            
                 $dataEvaluasi = [
                     'predikat_tw1' => ($map['predikat_tw1'] !== null) ? (string)($row[$map['predikat_tw1']] ?? '') : '',
                     'predikat_tw2' => ($map['predikat_tw2'] !== null) ? (string)($row[$map['predikat_tw2']] ?? '') : '',
                     'predikat_tw3' => ($map['predikat_tw3'] !== null) ? (string)($row[$map['predikat_tw3']] ?? '') : '',
                     'predikat_tw4' => ($map['predikat_tw4'] !== null) ? (string)($row[$map['predikat_tw4']] ?? '') : '',
-                    // 'skp_id'       => $skp->id,
+                    'skp_id'       => $skp->id,
                 ];
-                
-                // SkpEvaluasi::updateorCreate(
-                //     ['skp_id' => $skp->id],
-                //     $dataEvaluasi
-                // );
-            }
 
-            return redirect()->back()->with('success', 'Data SKP berhasil diimport!');
+                $this->skpEvaluasiRepository->updateOrCreate(
+                    ['skp_id' => $skp->id],
+                    $dataEvaluasi
+                );
+            }
+            
+            return redirect()->back()->with('success', 'Data Evaluasi SKP berhasil diimport!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal import: ' . $e->getMessage());
+            Log::error('Import Error: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal import: ' . $e->getMessage());
         }
     }
 }

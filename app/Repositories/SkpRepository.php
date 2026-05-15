@@ -26,4 +26,9 @@ class SkpRepository extends BaseRepository
     {
         // Add your boot logic here
     }
+
+    public function firstOrCreateSkp(array $attributes, array $values = [])
+    {
+        return $this->model->firstOrCreate($attributes, $values);
+    }
 }
