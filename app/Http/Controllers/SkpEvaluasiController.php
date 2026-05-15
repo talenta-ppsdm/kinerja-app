@@ -9,6 +9,7 @@ use App\Repositories\SkpRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Str;
 
 class SkpEvaluasiController extends Controller
 {
@@ -24,7 +25,16 @@ class SkpEvaluasiController extends Controller
     public function index()
     {
         $skpEvaluasi = SkpEvaluasi::with('masterSkp')->get();
-        return view('monitoring_evaluasi', compact('skpEvaluasi'));
+        $currentTriwulan = ceil(now()->month / 3);
+
+        $list_predikat = ['Sangat Baik', 'Baik', 'Butuh Perbaikan', 'Kurang', 'Sangat Kurang'];
+        $rekap_predikat = [];
+
+        foreach ($list_predikat as $p) {
+            $key = Str::slug($p, '_');
+            $rekap_predikat[$key] = $this->skpEvaluasiRepository->byPredikat($p, $currentTriwulan);
+        }
+        return view('monitoring_evaluasi', compact('skpEvaluasi', 'rekap_predikat'));
     }
 
     public function import(Request $request, ImportEvaluasi $importEvaluasi)

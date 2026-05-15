@@ -26,4 +26,10 @@ class SkpEvaluasiRepository extends BaseRepository
     {
         // Add your boot logic here
     }
+
+    public function byPredikat(string $predikat, int $triwulan)
+    {
+        $column = "predikat_tw{$triwulan}";
+        return $this->model->where($column, $predikat)->get();
+    }
 }

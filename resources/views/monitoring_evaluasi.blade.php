@@ -4,6 +4,33 @@
     <div class="content" style="margin-left: 105px; padding: 8px;">
         <div class="org-container">
             <h2 class="text-light mb-3">Monitoring Evaluasi</h2>
+
+            <div class="row">
+                @php
+                    $cards = [
+                        ['label' => 'Sangat Baik', 'key' => 'sangat_baik'],
+                        ['label' => 'Baik', 'key' => 'baik'],
+                        ['label' => 'Butuh Perbaikan', 'key' => 'butuh_perbaikan'],
+                        ['label' => 'Kurang', 'key' => 'kurang'],
+                        ['label' => 'Sangat Kurang', 'key' => 's_kurang'],
+                    ];
+                @endphp
+
+                @foreach($cards as $card)
+                    <div class="col-6 col-md-3 col-lg-6 col-xl-3">
+                        <a class="block block-rounded" href="javascript:void(0)">
+                            <div class="block-content block-content-full">
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">{{ $card['label'] }}</div>
+                                <div class="font-size-h2 font-w400 text-dark">
+                                    {{-- Menggunakan null coalescing (??) agar tidak error jika data kosong --}}
+                                    {{ number_format(($rekap_predikat[$card['key']] ?? collect())->count(), 0, ',', '.') }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+
             <form action="{{ route('import.evaluasi') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row items-push">
