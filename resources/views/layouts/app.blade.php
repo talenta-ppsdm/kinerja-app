@@ -40,10 +40,11 @@
         <main>
             @yield('content')
         </main>
-    
+        
         <script>
             feather.replace();
         </script>
+        @stack('js')
     </body>
 
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ImportEvaluasi;
+use App\Enums\UnitOrganisasiEnum;
 use App\Models\SkpEvaluasi;
 use App\Repositories\SkpEvaluasiRepository;
 use App\Repositories\SkpRepository;
@@ -22,9 +23,29 @@ class SkpEvaluasiController extends Controller
         $this->skpRepository = $skpRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        // Menampilkan data evaluasi SKP
         $skpEvaluasi = SkpEvaluasi::with('masterSkp')->get();
+        $reqUnor = $request->unit_organisasi;
+        $reqUnker = $request->unit_kerja;
+        $listUnor = UnitOrganisasiEnum::cases();
+        
+        // if ($reqUnor !== null) {
+        //     $listUnker1 = $reqUnor->getUnitKerja();
+        //     dd($listUnker1);
+        // }
+
+        // Filter belum selesai
+
+        // Filter
+        $listUnker = [];
+
+        foreach ($listUnor as $unor) {
+            $listUnker[$unor->value] = $unor->getUnitKerja();
+        }
+
+        // Rekapitulasi predikat
         $currentTriwulan = ceil(now()->month / 3);
 
         $list_predikat = ['Sangat Baik', 'Baik', 'Butuh Perbaikan', 'Kurang', 'Sangat Kurang'];
@@ -34,7 +55,12 @@ class SkpEvaluasiController extends Controller
             $key = Str::slug($p, '_');
             $rekap_predikat[$key] = $this->skpEvaluasiRepository->byPredikat($p, $currentTriwulan);
         }
-        return view('monitoring_evaluasi', compact('skpEvaluasi', 'rekap_predikat'));
+        return view('monitoring_evaluasi', compact(
+            'skpEvaluasi', 
+            'rekap_predikat', 
+            'listUnor',
+            'listUnker'
+        ));
     }
 
     public function import(Request $request, ImportEvaluasi $importEvaluasi)
@@ -106,6 +132,10 @@ class SkpEvaluasiController extends Controller
                     continue;
                 }
 
+                // Handling unit organisasi
+                $unit_kerja = $row[$map['unit_kerja']];
+                $unitOrganisasi = UnitOrganisasiEnum::getUnitOrganisasi($unit_kerja)->value ?? null;
+
                 $dataSkp = [
                     'nama'           => $lastData['nama'],
                     'nip'            => $lastData['nip'],
@@ -113,6 +143,7 @@ class SkpEvaluasiController extends Controller
                     'jabatan'        => ($map['jabatan'] !== null) ? (string)($row[$map['jabatan']] ?? '') : '',
                     'golongan'       => ($map['golongan'] !== null) ? (string)($row[$map['golongan']] ?? '') : '',
                     'unit_kerja'     => ($map['unit_kerja'] !== null) ? (string)($row[$map['unit_kerja']] ?? '') : '',
+                    'unit_organisasi' => $unitOrganisasi ? $unitOrganisasi : '',
                     'eselon'         => ($map['eselon'] !== null) ? (string)($row[$map['eselon']] ?? '') : '',
                     'tagging_atasan' => ($map['tagging_atasan'] !== null) ? (string)($row[$map['tagging_atasan']] ?? '') : '',
                     'ppk'            => ($map['ppk'] !== null) ? (string)($row[$map['ppk']] ?? '') : '',
