@@ -40,6 +40,7 @@ class SkpEvaluasiController extends Controller
             $request->input('unit_kerja'),
             $request->input('predikat'),
             $request->input('triwulan'),
+            $request->input('search'),
         );
 
         // Rekapitulasi predikat
