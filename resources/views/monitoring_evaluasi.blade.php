@@ -27,12 +27,18 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="text-dark">Triwulan</label>
-                                <select id="select-triwulan" name="triwulan" class="form-control">
+                                <select id="select-triwulan" name="triwulan" class="form-control" onchange="updatePredikat()">
                                     <option value="">-- Pilih Triwulan --</option>
                                     <option value="1">Triwulan I</option>
                                     <option value="2">Triwulan II</option>
                                     <option value="3">Triwulan III</option>
                                     <option value="4">Triwulan IV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-dark">Predikat</label>
+                                <select id="select-predikat" name="predikat" class="form-control">
+                                    <option value="">-- Pilih Predikat --</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -205,7 +211,6 @@
 @push('js')
 <script>
     const unkerData = JSON.parse('@json($listUnker)');
-    
     function updateUnker() {
         const unorSelect = document.getElementById('select-unor');
         const unkerSelect = document.getElementById('select-unker');
@@ -219,6 +224,24 @@
                 option.value = unker;
                 option.text = unker;
                 unkerSelect.add(option);
+            });
+        }
+    }
+
+    const predicateData = JSON.parse('@json($listPredicate)');
+    function updatePredikat() {
+        const triwulanSelect = document.getElementById('select-triwulan');
+        const predikatSelect = document.getElementById('select-predikat');
+        const selectedTriwulan = triwulanSelect.value;
+
+        predikatSelect.innerHTML = '<option value="">-- Pilih Predikat --</option>'
+
+        if (selectedTriwulan) {
+            predicateData.forEach(predikat => {
+                const option = document.createElement('option');
+                option.value = predikat;
+                option.text = predikat;
+                predikatSelect.add(option);
             });
         }
     }

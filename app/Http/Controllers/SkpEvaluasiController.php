@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ImportEvaluasi;
+use App\Enums\PredicateEnum;
 use App\Enums\UnitOrganisasiEnum;
 use App\Models\SkpEvaluasi;
 use App\Repositories\SkpEvaluasiRepository;
@@ -25,15 +26,15 @@ class SkpEvaluasiController extends Controller
 
     public function index(Request $request)
     {
-        // Menampilkan data evaluasi SKP
         $listUnor = UnitOrganisasiEnum::cases();
         
-        // Handling filter
+        // Showing unker filter while choosing unit organisasi
         $listUnker = [];
         foreach ($listUnor as $unor) {
             $listUnker[$unor->value] = $unor->getUnitKerja();
         }
 
+        // Filter by unit organisasi & unit kerja
         if ($request->filled('unit_organisasi')) {
             if ($request->filled('unit_kerja')) {
                 $skpEvaluasi = $this->skpEvaluasiRepository->byUnitOrganisasiAndUnitKerja($request->unit_organisasi, $request->unit_kerja);
@@ -46,8 +47,15 @@ class SkpEvaluasiController extends Controller
             $skpEvaluasi = $this->skpEvaluasiRepository->allEvaluasiWithSkp();
         }
 
+        // Filter by triwulan
         if ($request->filled('triwulan')) {
             $skpEvaluasi = $this->skpEvaluasiRepository->byTriwulan($request->triwulan);
+        }
+
+        // Filter by predikat
+        $listPredicate = array_column(PredicateEnum::cases(), 'value');
+        if ($request->filled('predikat') && $request->filled('triwulan')) {
+            $skpEvaluasi = $this->skpEvaluasiRepository->byPredikat($request->predikat, $request->triwulan);
         }
 
         // Rekapitulasi predikat
@@ -64,7 +72,8 @@ class SkpEvaluasiController extends Controller
             'skpEvaluasi', 
             'rekap_predikat', 
             'listUnor',
-            'listUnker'
+            'listUnker',
+            'listPredicate',
         ));
     }
 
