@@ -34,29 +34,13 @@ class SkpEvaluasiController extends Controller
             $listUnker[$unor->value] = $unor->getUnitKerja();
         }
 
-        // Filter by unit organisasi & unit kerja
-        if ($request->filled('unit_organisasi')) {
-            if ($request->filled('unit_kerja')) {
-                $skpEvaluasi = $this->skpEvaluasiRepository->byUnitOrganisasiAndUnitKerja($request->unit_organisasi, $request->unit_kerja);
-            }
-            else {
-                $skpEvaluasi = $this->skpEvaluasiRepository->byUnitOrganisasi($request->unit_organisasi);
-
-            }
-        }else {
-            $skpEvaluasi = $this->skpEvaluasiRepository->allEvaluasiWithSkp();
-        }
-
-        // Filter by triwulan
-        if ($request->filled('triwulan')) {
-            $skpEvaluasi = $this->skpEvaluasiRepository->byTriwulan($request->triwulan);
-        }
-
-        // Filter by predikat
         $listPredicate = array_column(PredicateEnum::cases(), 'value');
-        if ($request->filled('predikat') && $request->filled('triwulan')) {
-            $skpEvaluasi = $this->skpEvaluasiRepository->byPredikat($request->predikat, $request->triwulan);
-        }
+        $skpEvaluasi = $this->skpEvaluasiRepository->skpEvaluasiFilter(
+            $request->input('unit_organisasi'),
+            $request->input('unit_kerja'),
+            $request->input('predikat'),
+            $request->input('triwulan'),
+        );
 
         // Rekapitulasi predikat
         $currentTriwulan = ceil(now()->month / 3);
