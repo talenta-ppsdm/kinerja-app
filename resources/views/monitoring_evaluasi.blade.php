@@ -91,8 +91,8 @@
             <div class="row items-push">
                 <div class="col-md-9">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="file_excel" data-toggle="custom-file-input" required>
-                        <label class="custom-file-label">Pilih file Excel SKP</label>
+                        <input type="file" class="custom-file-input" name="file_excel" id="file_excel" data-toggle="custom-file-input" required>
+                        <label class="custom-file-label" for="file_excel" id="file-label">Pilih file Excel SKP</label>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -220,9 +220,6 @@
 
 @push('js')
 <script>
-    // document.querySelector('#modal-block-normal').classList.add('show');
-    // document.querySelector('#modal-block-normal').style.display = 'block';
-
     const unkerData = JSON.parse('@json($listUnker)');
     function updateUnker() {
         const unorSelect = document.getElementById('select-unor');
@@ -258,5 +255,11 @@
             });
         }
     }
+
+    document.getElementById('file_excel').addEventListener('change', function(e) {
+        var fileName = e.target.files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
 </script>
 @endpush

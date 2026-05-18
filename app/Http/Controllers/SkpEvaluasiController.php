@@ -197,7 +197,7 @@ class SkpEvaluasiController extends Controller
         return view('edit_evaluasi', compact('skpEvaluasi', 'listUnor', 'listUnker'));
     }
 
-    public function update(Request $request, $idEvaluasi)
+    public function update(Request $request, int $idEvaluasi)
     {
         $request->validate([
             'unit_organisasi' => 'required|string',
