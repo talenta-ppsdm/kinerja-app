@@ -5,7 +5,8 @@
     padding: 75px;
     color: white;
     font-family: 'Open Sans', sans-serif;
-    min-height: 80vh;
+    width: calc(100% - 108px);
+    
 }
 
 /* Bagian Pimpinan */

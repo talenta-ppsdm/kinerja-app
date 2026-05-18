@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="content" style="margin-left: 105px; padding: 8px;">
-        <div class="org-container" background-color: #244253;">
+    <div class="content" style="margin-left: 105px; padding: 16px;">
+        <div class="org-container" background-color: #244253;>
             
             <div style="margin-bottom: 25px; border-bottom: 2px solid #cbd1a1; padding-bottom: 15px;">
                 <h1 style="color: #cbd1a1; margin: 0; font-size: 1.8rem; font-weight: bold;">
@@ -15,7 +15,7 @@
 
             <div class="shortcut-grid">
                 
-                <a href="{{ route('data.index') }}" class="shortcut-card">
+                <a href="URL_SHARE_ONEDRIVE_ANDA" target="_blank" rel="noopener noreferrer" class="shortcut-card">
                     <div class="shortcut-icon-wrapper">
                         <i data-feather="hard-drive" class="shortcut-icon"></i>
                     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SkpEvaluasiController;
+use App\Http\Controllers\SkpPintasanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,8 +17,5 @@ Route::get('/monitoring-evaluasi', [SkpEvaluasiController::class, 'index'])->nam
 Route::post('import/evaluasi-skp', [SkpEvaluasiController::class, 'import'])->name('import.evaluasi');
 
 // Menuju halaman Pintasan
-Route::get('/pintasan', function () {
-    return view('pintasan');
-})->name('pintasan.index');
-
+Route::get('/pintasan', [SkpPintasanController::class, 'index'])->name('pintasan.index');
 
