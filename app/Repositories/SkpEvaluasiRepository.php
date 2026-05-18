@@ -32,4 +32,9 @@ class SkpEvaluasiRepository extends BaseRepository
         $column = "predikat_tw{$triwulan}";
         return $this->model->where($column, $predikat)->get();
     }
+    
+    public function byUnitKerja(string $unitKerja)
+    {
+        return $this->model->where('unit_kerja', $unitKerja)->get();
+    }
 }

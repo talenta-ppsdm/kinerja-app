@@ -16,6 +16,7 @@ class Skp extends Model
         'status_pegawai',
         'jabatan',
         'golongan',
+        'unit_organisasi',
         'unit_kerja',
         'eselon',
         'tagging_atasan',
