@@ -44,6 +44,8 @@
         <script>
             feather.replace();
         </script>
+        <script src="assets/js/oneui.core.min.js"></script>
+        <script src="assets/js/oneui.app.min.js"></script>
         @stack('js')
     </body>
 

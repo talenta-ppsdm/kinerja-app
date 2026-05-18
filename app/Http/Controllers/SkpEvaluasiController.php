@@ -181,4 +181,34 @@ class SkpEvaluasiController extends Controller
                 ->with('error', 'Gagal import: ' . $e->getMessage());
         }
     }
+
+    public function edit(int $id)
+    {
+        $skpEvaluasi = $this->skpEvaluasiRepository->find($id);
+        $skpEvaluasi->load('masterSkp');
+
+        $listUnor = UnitOrganisasiEnum::cases();
+
+        // Showing unker filter while choosing unit organisasi
+        $listUnker = [];
+        foreach ($listUnor as $unor) {
+            $listUnker[$unor->value] = $unor->getUnitKerja();
+        }
+        return view('edit_evaluasi', compact('skpEvaluasi', 'listUnor', 'listUnker'));
+    }
+
+    public function update(Request $request, $idEvaluasi)
+    {
+        $request->validate([
+            'unit_organisasi' => 'required|string',
+            'unit_kerja' => 'required|string',
+        ]);
+
+        $data = $request->only(['unit_organisasi', 'unit_kerja']);
+        $idSkp = $this->skpEvaluasiRepository->find($idEvaluasi)->skp_id;
+
+        $this->skpRepository->update($data, $idSkp);
+
+        return redirect()->route('evaluasi.index')->with('success', 'Data Evaluasi SKP berhasil diperbarui!');
+    }
 }

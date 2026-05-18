@@ -15,6 +15,8 @@ Route::get('/', function () {
 
 Route::get('/monitoring-evaluasi', [SkpEvaluasiController::class, 'index'])->name('evaluasi.index');
 Route::post('import/evaluasi-skp', [SkpEvaluasiController::class, 'import'])->name('import.evaluasi');
+Route::get('/evaluasi/{id}/edit', [SkpEvaluasiController::class, 'edit'])->name('evaluasi.edit');
+Route::put('/evaluasi/{id}', [SkpEvaluasiController::class, 'update'])->name('evaluasi.update');
 
 // Menuju halaman Pintasan
 Route::get('/pintasan', [SkpPintasanController::class, 'index'])->name('pintasan.index');
