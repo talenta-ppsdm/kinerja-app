@@ -27,8 +27,32 @@ class SkpRepository extends BaseRepository
         // Add your boot logic here
     }
 
+    public function allSkp()
+    {
+        return $this->model->with('evaluasi')->get();
+    }
+
     public function firstOrCreateSkp(array $attributes, array $values = [])
     {
         return $this->model->firstOrCreate($attributes, $values);
+    }
+
+    public function byUnitKerjaUnitOrganisasi(string $unitKerja, string $unitOrganisasi)
+    {
+        return $this->model->where('unit_kerja', $unitKerja)
+                           ->where('unit_organisasi', $unitOrganisasi)
+                           ->get();
+    }
+
+    public function byUnitKerja (string $unitKerja)
+    {
+        return $this->model->where('unit_kerja', $unitKerja)
+                           ->get();
+    }
+
+    public function byUnitOrganisasi (string $unitOrganisasi)
+    {
+        return $this->model->where('unit_organisasi', $unitOrganisasi)
+                            ->get();
     }
 }

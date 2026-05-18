@@ -26,23 +26,24 @@ class SkpEvaluasiController extends Controller
     public function index(Request $request)
     {
         // Menampilkan data evaluasi SKP
-        $skpEvaluasi = SkpEvaluasi::with('masterSkp')->get();
-        $reqUnor = $request->unit_organisasi;
-        $reqUnker = $request->unit_kerja;
         $listUnor = UnitOrganisasiEnum::cases();
         
-        // if ($reqUnor !== null) {
-        //     $listUnker1 = $reqUnor->getUnitKerja();
-        //     dd($listUnker1);
-        // }
-
-        // Filter belum selesai
-
-        // Filter
+        // Handling filter
         $listUnker = [];
-
         foreach ($listUnor as $unor) {
             $listUnker[$unor->value] = $unor->getUnitKerja();
+        }
+
+        if ($request->filled('unit_organisasi')) {
+            if ($request->filled('unit_kerja')) {
+                $skpEvaluasi = $this->skpEvaluasiRepository->byUnitOrganisasiAndUnitKerja($request->unit_organisasi, $request->unit_kerja);
+            }
+            else {
+                $skpEvaluasi = $this->skpEvaluasiRepository->byUnitOrganisasi($request->unit_organisasi);
+
+            }
+        }else {
+            $skpEvaluasi = $this->skpEvaluasiRepository->allEvaluasiWithSkp();
         }
 
         // Rekapitulasi predikat

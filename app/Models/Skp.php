@@ -24,4 +24,9 @@ class Skp extends Model
         'periode',  
         'tahun',
     ];
+
+    public function evaluasi()
+    {
+        return $this->hasMany(SkpEvaluasi::class, 'skp_id');
+    }
 }
