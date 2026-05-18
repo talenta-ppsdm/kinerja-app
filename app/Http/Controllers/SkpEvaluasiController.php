@@ -46,6 +46,10 @@ class SkpEvaluasiController extends Controller
             $skpEvaluasi = $this->skpEvaluasiRepository->allEvaluasiWithSkp();
         }
 
+        if ($request->filled('triwulan')) {
+            $skpEvaluasi = $this->skpEvaluasiRepository->byTriwulan($request->triwulan);
+        }
+
         // Rekapitulasi predikat
         $currentTriwulan = ceil(now()->month / 3);
 

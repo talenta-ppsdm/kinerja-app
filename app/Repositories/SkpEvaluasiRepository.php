@@ -1,7 +1,8 @@
 <?php
     
 namespace App\Repositories;
-    
+
+use App\Enums\PredicateEnum;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\{SkpEvaluasi};
     
@@ -51,5 +52,13 @@ class SkpEvaluasiRepository extends BaseRepository
             $query->where('unit_organisasi', $unitOrganisasi)
                   ->where('unit_kerja', $unitKerja);
         })->get();
+    }
+
+    public function byTriwulan(int $triwulan)
+    {
+        $column = "predikat_tw{$triwulan}";
+        $predicate = array_column(PredicateEnum::cases(), 'value');
+
+        return $this->model->whereIn($column, $predicate)->get();
     }
 }

@@ -19,10 +19,20 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label class="text-dark">Unit Kerja</label>
                                 <select id="select-unker" name="unit_kerja" class="form-control">
                                     <option value="">-- Pilih Unit Kerja --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-dark">Triwulan</label>
+                                <select id="select-triwulan" name="triwulan" class="form-control">
+                                    <option value="">-- Pilih Triwulan --</option>
+                                    <option value="1">Triwulan I</option>
+                                    <option value="2">Triwulan II</option>
+                                    <option value="3">Triwulan III</option>
+                                    <option value="4">Triwulan IV</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
