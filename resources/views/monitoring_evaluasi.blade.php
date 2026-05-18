@@ -17,6 +17,7 @@
                                     @foreach($listUnor as $unor)
                                         <option value="{{ $unor->value }}">{{ $unor->value }}</option>
                                     @endforeach
+                                    <option value="lainnya">Lainnya</option>
                                 </select>
                             </div>
                             <div class="col-md-3">

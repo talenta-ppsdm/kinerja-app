@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\PredicateEnum;
+use App\Enums\UnitOrganisasiEnum;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\{SkpEvaluasi};
     
@@ -38,9 +39,15 @@ class SkpEvaluasiRepository extends BaseRepository
         $query = $this->model->with('masterSkp');
 
         if ($unitOrganisasi) {
-            $query->whereHas('masterSkp', function($q) use ($unitOrganisasi) {
-                $q->where('unit_organisasi', $unitOrganisasi);
-            });
+            if ($unitOrganisasi !== "lainnya") {
+                $query->whereHas('masterSkp', function($q) use ($unitOrganisasi) {
+                    $q->where('unit_organisasi', $unitOrganisasi);
+                });
+            } else {
+                $query->whereHas('masterSkp', function($q) {
+                    $q->whereNotIn('unit_organisasi', array_column(UnitOrganisasiEnum::cases(), 'value'));
+                });
+            }
         }
 
         if ($unitKerja) {
