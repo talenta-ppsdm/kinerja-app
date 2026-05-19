@@ -91,7 +91,7 @@
             <div class="row items-push">
                 <div class="col-md-9">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="file_excel" id="file_excel" data-toggle="custom-file-input" required>
+                        <input type="file" class="custom-file-input" name="file_excel" id="file_excel" data-toggle="custom-file-input">
                         <label class="custom-file-label" for="file_excel" id="file-label">Pilih file Excel SKP</label>
                     </div>
                 </div>

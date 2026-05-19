@@ -32,9 +32,16 @@ class SkpRepository extends BaseRepository
         return $this->model->with('evaluasi')->get();
     }
 
-    public function firstOrCreateSkp(array $attributes, array $values = [])
+    public function updateOrCreateSkp(array $attributes, array $values = [])
     {
-        return $this->model->firstOrCreate($attributes, $values);
+        return $this->model->updateOrCreate(
+            [
+                'nip'     => $attributes['nip'],
+                'jabatan' => $attributes['jabatan'],
+                'ppk'     => $attributes['ppk'],
+            ], 
+            $values 
+        );
     }
 
     public function byUnitKerjaUnitOrganisasi(string $unitKerja, string $unitOrganisasi)

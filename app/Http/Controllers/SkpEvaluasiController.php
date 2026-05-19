@@ -155,7 +155,7 @@ class SkpEvaluasiController extends Controller
                     'tahun'          => ($map['tahun'] !== null) ? (string)($row[$map['tahun']] ?? '') : '',
                 ];
 
-                $skp = $this->skpRepository->firstOrCreateSkp(
+                $skp = $this->skpRepository->updateOrCreateSkp(
                     [
                         'nip' => $dataSkp['nip'], 
                         'jabatan' => $dataSkp['jabatan'],
