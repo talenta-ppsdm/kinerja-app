@@ -26,4 +26,9 @@ class SkpPenyusunanRepository extends BaseRepository
     {
         // Add your boot logic here
     }
+
+    public function allPenyusunanWithSkp()
+    {
+        return $this->model->with('masterSkp')->get();
+    }
 }

@@ -22,7 +22,10 @@
                 <a href="{{ url('/') }}" class="navbar__link"><i data-feather="home"></i><span>Home</span></a>
                 </li>
                 <li class="navbar__item">
-                <a href="{{ route('evaluasi.index') }}" class="navbar__link"><i data-feather="database"></i><span>Monitoring Evaluasi</span></a>        
+                <a href="{{ route('penyusunan.index') }}" class="navbar__link"><i data-feather="folder-plus"></i><span>Monitoring Penyusunan</span></a>        
+                </li>
+                <li class="navbar__item">
+                <a href="{{ route('evaluasi.index') }}" class="navbar__link"><i data-feather="folder-minus"></i><span>Monitoring Evaluasi</span></a>        
                 </li>
                 <li class="navbar__item">
                 <a href="{{ route('pintasan.index') }}" class="navbar__link"><i data-feather="folder"></i><span>Pintasan</span></a>        
