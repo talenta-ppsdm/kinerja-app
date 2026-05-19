@@ -44,15 +44,20 @@ class SkpEvaluasiController extends Controller
         );
 
         // Rekapitulasi predikat
-        $currentTriwulan = ceil(now()->month / 3);
+        if ($request->filled('triwulan')) {
+            $currentTriwulan = $request->input('triwulan');
+        }else {
+            $currentTriwulan = ceil(now()->month / 3);
+        }
 
         $list_predikat = ['Sangat Baik', 'Baik', 'Butuh Perbaikan', 'Kurang', 'Sangat Kurang'];
         $rekap_predikat = [];
 
         foreach ($list_predikat as $p) {
             $key = Str::slug($p, '_');
-            $rekap_predikat[$key] = $this->skpEvaluasiRepository->byPredikat($p, $currentTriwulan);
+            $rekap_predikat[$key] = $skpEvaluasi->where("predikat_tw{$currentTriwulan}", $p);
         }
+
         return view('monitoring_evaluasi', compact(
             'skpEvaluasi', 
             'rekap_predikat', 
