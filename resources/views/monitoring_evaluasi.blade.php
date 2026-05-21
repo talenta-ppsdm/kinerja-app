@@ -59,6 +59,7 @@
         <!-- END Filter Data -->
 
         <!-- Predicate Recapitulation -->
+        <p class="text-light">Rekapitulasi berdasarkan triwulan {{ $currentTriwulan }}  </p>
         <div class="row">
             @php
                 $cards = [

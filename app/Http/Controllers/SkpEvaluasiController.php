@@ -64,6 +64,7 @@ class SkpEvaluasiController extends Controller
             'listUnor',
             'listUnker',
             'listPredicate',
+            'currentTriwulan',
         ));
     }
 
