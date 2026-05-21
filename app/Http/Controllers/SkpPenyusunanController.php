@@ -25,7 +25,8 @@ class SkpPenyusunanController extends Controller
 
     public function index()
     {
-        return view('monitoring_penyusunan');
+        $skpPenyusunan = $this->skpPenyusunanRepository->with('masterSkp')->get();
+        return view('monitoring_penyusunan', compact('skpPenyusunan'));
     }
 
     public function import(Request $request)
