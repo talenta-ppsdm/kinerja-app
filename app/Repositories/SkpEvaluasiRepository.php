@@ -34,7 +34,14 @@ class SkpEvaluasiRepository extends BaseRepository
         return $this->model->with('masterSkp')->get();
     }
 
-    public function skpEvaluasiFilter(?string $unitOrganisasi, ?string $unitKerja, ?string $predikat, ?int $triwulan, ?string $search)
+    public function skpEvaluasiFilter(
+        ?string $unitOrganisasi, 
+        ?string $unitKerja, 
+        ?string $predikat, 
+        ?int $triwulan,
+        ?string $eselon, 
+        ?string $search
+    )
     {
         $query = $this->model->with('masterSkp');
 
@@ -59,6 +66,18 @@ class SkpEvaluasiRepository extends BaseRepository
         if ($predikat && $triwulan) {
             $column = "predikat_tw{$triwulan}";
             $query->where($column, $predikat);
+        }
+
+        if ($eselon) {
+            if ($eselon === 'non') {
+                $query->whereHas('masterSkp', function($q) {
+                    $q->where('eselon', 'Non Eselon');
+                });
+            } else {
+                $query->whereHas('masterSkp', function($q) use ($eselon) {
+                    $q->where('eselon', 'REGEXP', '^' . $eselon . '([^I]|$)');
+                });
+            }
         }
 
         if ($search) {

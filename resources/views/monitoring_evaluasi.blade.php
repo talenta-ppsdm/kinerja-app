@@ -42,6 +42,17 @@
                                 <option value="">-- Pilih Predikat --</option>
                             </select>
                         </div>
+                        <div class="col-md-3">
+                            <label class="text-dark">Eselon</label>
+                            <select id="select-eselon" name="eselon" class="form-control">
+                                <option value="">-- Pilih Eselon --</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="non">Non-eselon</option>
+                            </select>
+                        </div>
                         <div class="col-md-4">
                             <label class="text-dark">Pencarian</label>
                             <input type="text" class="form-control" name="search" placeholder="Masukkan nama, NIP, ....">
