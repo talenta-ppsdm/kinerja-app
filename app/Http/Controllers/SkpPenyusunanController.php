@@ -173,4 +173,24 @@ class SkpPenyusunanController extends Controller
                 ->with('error', 'Gagal import: ' . $e->getMessage());
         }
     }
+
+    public function edit(int $id)
+    {
+        $skpPenyusunan = $this->skpPenyusunanRepository->find($id);
+        $skpPenyusunan->load('masterSkp');
+
+        $listUnor = UnitOrganisasiEnum::cases();
+
+        $listUnker = [];
+        foreach ($listUnor as $unor) {
+            $listUnker[$unor->value] = $unor->getUnitKerja();
+        }
+
+        return view('edit_penyusunan', compact('skpPenyusunan', 'listUnor', 'listUnker'));
+    }
+
+    public function update()
+    {
+        
+    }
 }

@@ -22,6 +22,8 @@ Route::put('/evaluasi/{id}', [SkpEvaluasiController::class, 'update'])->name('ev
 // Menuju halaman Monitoring Penyusunan
 Route::get('/monitoring-penyusunan', [SkpPenyusunanController::class, 'index'])->name('penyusunan.index');
 Route::post('/import/penyusunan-skp', [SkpPenyusunanController::class, 'import'])->name('import.penyusunan');
+Route::get('/penyusunan/{id}/edit', [SkpPenyusunanController::class, 'edit'])->name('penyusunan.edit');
+Route::put('/penyusunan/{id}', [SkpPenyusunanController::class, 'update'])->name('penyusunan.update');
 
 // Menuju halaman Pintasan
 Route::get('/pintasan', [SkpPintasanController::class, 'index'])->name('pintasan.index');

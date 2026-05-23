@@ -181,7 +181,7 @@
                                         @endif
                                     </td>
                                     <td class=" text-center font-size-sm">
-                                        <a href="" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{ route('penyusunan.edit', $penyusunan->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                     </td>
                                 </tr>
                                 @endforeach
