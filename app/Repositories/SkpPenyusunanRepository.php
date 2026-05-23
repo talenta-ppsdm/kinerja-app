@@ -1,7 +1,8 @@
 <?php
     
 namespace App\Repositories;
-    
+
+use App\Enums\UnitOrganisasiEnum;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\{SkpPenyusunan};
     
@@ -37,8 +38,8 @@ class SkpPenyusunanRepository extends BaseRepository
                     $q->where('unit_organisasi', $unitOrganisasi);
                 });
             }else{
-                $query->whereHas('masterSkp', function($q) use ($unitOrganisasi){
-                    $q->where('unit_organisasi', $unitOrganisasi);
+                $query->whereHas('masterSkp', function($q) {
+                    $q->whereNotIn('unit_organisasi', array_column(UnitOrganisasiEnum::cases(), 'value'));
                 });
             }
         }
