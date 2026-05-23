@@ -28,7 +28,12 @@ class SkpPenyusunanRepository extends BaseRepository
         // Add your boot logic here
     }
 
-    public function skpPenyusunanFilter(?string $unitOrganisasi, ?string $untiKerja, ?string $statusSkp)
+    public function skpPenyusunanFilter(
+        ?string $unitOrganisasi, 
+        ?string $untiKerja, 
+        ?string $statusSkp,
+        ?string $eselon
+    )
     {
         $query = $this->model->with('masterSkp');
 
@@ -52,6 +57,18 @@ class SkpPenyusunanRepository extends BaseRepository
 
         if ($statusSkp) {
             $query->where('status_skp', $statusSkp);
+        }
+
+        if ($eselon) {
+            if ($eselon === 'non') {
+                $query->whereHas('masterSkp', function($q) {
+                    $q->where('eselon', 'Non Eselon');
+                });
+            } else {
+                $query->whereHas('masterSkp', function($q) use ($eselon) {
+                    $q->where('eselon', 'REGEXP', '^' . $eselon . '([^I]|$)');
+                });
+            }
         }
 
         return $query->get();
