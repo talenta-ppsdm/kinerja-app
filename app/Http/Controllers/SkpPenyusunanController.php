@@ -43,6 +43,7 @@ class SkpPenyusunanController extends Controller
             $request->input('unit_kerja'),
             $request->input('status_skp'),
             $request->input('eselon'),
+            $request->input('search'),
         );
 
         // Rekapitulasi status SKP

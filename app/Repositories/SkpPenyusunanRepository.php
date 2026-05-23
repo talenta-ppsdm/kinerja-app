@@ -32,7 +32,8 @@ class SkpPenyusunanRepository extends BaseRepository
         ?string $unitOrganisasi, 
         ?string $untiKerja, 
         ?string $statusSkp,
-        ?string $eselon
+        ?string $eselon,
+        ?string $search,
     )
     {
         $query = $this->model->with('masterSkp');
@@ -69,6 +70,17 @@ class SkpPenyusunanRepository extends BaseRepository
                     $q->where('eselon', 'REGEXP', '^' . $eselon . '([^I]|$)');
                 });
             }
+        }
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->whereHas('masterSkp', function($subQ) use ($search) {
+                    $subQ->where('nama', 'like', "%{$search}%")
+                          ->orWhere('nip', 'like', "%{$search}%")
+                          ->orWhere('unit_kerja', 'like', "%{$search}%")
+                          ->orWhere('jabatan', 'like', "%{$search}%");
+                });
+            });
         }
 
         return $query->get();

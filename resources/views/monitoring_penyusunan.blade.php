@@ -46,6 +46,10 @@
                                 <option value="non">Non-eselon</option>
                             </select>
                         </div>
+                        <div class="col-md-4">
+                            <label class="text-dark">Pencarian</label>
+                            <input type="text" class="form-control" name="search" placeholder="Masukkan nama, NIP, ....">
+                        </div>
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-primary">
                                 <label class="text-dark"></label>
