@@ -9,6 +9,7 @@ use App\Repositories\SkpRepository;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class SkpPenyusunanController extends Controller
 {
@@ -27,6 +28,7 @@ class SkpPenyusunanController extends Controller
     public function index(Request $request)
     {
         $listUnor = UnitOrganisasiEnum::cases();
+        $listStatusSkp = StatusSkpEnum::cases();
 
         $skpPenyusunan = $this->skpPenyusunanRepository->with('masterSkp')->get();
 
@@ -36,19 +38,27 @@ class SkpPenyusunanController extends Controller
             $listUnker[$unor->value] = $unor->getUnitKerja();
         }
 
-        $listStatusSkp = StatusSkpEnum::cases();
-
         $skpPenyusunan = $this->skpPenyusunanRepository->skpPenyusunanFilter(
             $request->input('unit_organisasi'),
             $request->input('unit_kerja'),
             $request->input('status_skp'),
         );
 
+        // Rekapitulasi status SKP
+        $arrStatusSkp = array_column($listStatusSkp, 'value');
+        $rekapStatusSkp = [];
+
+        foreach ($arrStatusSkp as $s) {
+            $key = Str::slug($s, '_');
+            $rekapStatusSkp[$key] = $skpPenyusunan->where("status_skp", $s);
+        }
+
         return view('monitoring_penyusunan', compact(
             'skpPenyusunan',
             'listUnor',
             'listUnker',
             'listStatusSkp',
+            'rekapStatusSkp',
         ));
     }
 

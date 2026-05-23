@@ -46,6 +46,32 @@
             </div>
         </div>
         <!-- END Filter Data -->
+
+         <!-- Predicate Recapitulation -->
+          
+        <div class="row">
+            @php
+                $cards = [
+                    ['label' => 'Disetujui', 'key' => 'disetujui'],
+                    ['label' => 'Belum Menyusun', 'key' => 'belum_menyusun'],
+                    ['label' => 'Draft', 'key' => 'draft'],
+                ];
+            @endphp
+
+            @foreach($cards as $card)
+                <div class="col-6 col-md-4 col-lg-6 col-xl-4">
+                    <a class="block block-rounded" href="javascript:void(0)">
+                        <div class="block-content block-content-full">
+                            <div class="font-size-sm font-w600 text-uppercase text-muted">{{ $card['label'] }}</div>
+                            <div class="font-size-h2 font-w400 text-dark">
+                                {{ number_format(($rekapStatusSkp[$card['key']] ?? collect())->count(), 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+        <!-- END Predicate Recapitulation -->
         
         <!-- Import Penyusunan Data -->
         <form action="{{ route('import.penyusunan') }}" method="POST" enctype="multipart/form-data">
