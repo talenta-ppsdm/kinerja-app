@@ -148,6 +148,7 @@
                                 <th style="width: 20%;">Unit Kerja</th>
                                 <th style="width: 25%;">Pejabat Penilai Kinerja</th>
                                 <th style="width: 15%;">Periode</th>
+                                <th style="width: 15%;">Triwulan</th>
                                 <th style="width: 15%;">Triwulan I</th>
                                 <th style="width: 15%;">Triwulan II</th>
                                 <th style="width: 15%;">Triwulan III</th>
@@ -199,6 +200,17 @@
                                     </td>
                                     <td class="font-w600 font-size-sm">
                                         <p>{{ $evaluasi->masterSkp->periode ?? '' }}</p>
+                                    </td>
+                                    <td class="text-center font-size-sm" style="vertical-align: middle;">
+                                        <div class="d-flex justify-content-center">
+                                            @foreach([1, 2, 3, 4] as $q)
+                                                @if($q >= $evaluasi->tw_awal && $q <= $evaluasi->tw_akhir)
+                                                    <span class="badge badge-primary font-w700 mx-1" style="padding: 5px 8px;">TW {{$q}}</span>
+                                                @else
+                                                    <span class="badge badge-light text-muted font-w400 mx-1" style="padding: 5px 8px; opacity: 0.5;">TW {{$q}}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     </td>
 
                                     @foreach(['tw1', 'tw2', 'tw3', 'tw4'] as $tw)

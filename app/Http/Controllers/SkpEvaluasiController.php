@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class SkpEvaluasiController extends Controller
 {
@@ -33,7 +34,6 @@ class SkpEvaluasiController extends Controller
         foreach ($listUnor as $unor) {
             $listUnker[$unor->value] = $unor->getUnitKerja();
         }
-        // TODO: Filter golongan
 
         $listPredicate = array_column(PredicateEnum::cases(), 'value');
         $skpEvaluasi = $this->skpEvaluasiRepository->skpEvaluasiFilter(
@@ -59,6 +59,32 @@ class SkpEvaluasiController extends Controller
             $key = Str::slug($p, '_');
             $rekap_predikat[$key] = $skpEvaluasi->where("predikat_tw{$currentTriwulan}", $p);
         }
+
+        // Handle triwulan column
+        $skpEvaluasi = $skpEvaluasi->map(function ($item) {
+            $periode = $item->masterSkp->periode ?? null;
+            
+            $twAwal = 0;
+            $twAkhir = 0;
+
+            if ($periode) {
+                try {
+                    $startDateString = substr($periode, 0, 10);
+                    $twAwal = Carbon::createFromFormat('d-m-Y', $startDateString)->quarter;
+
+                    $endDateString = substr($periode, -10);
+                    $twAkhir = Carbon::createFromFormat('d-m-Y', $endDateString)->quarter;
+                } catch (\Exception $e) {
+                    $twAwal = 0;
+                    $twAkhir = 0;
+                }
+            }
+
+            $item->tw_awal = $twAwal;
+            $item->tw_akhir = $twAkhir;
+            
+            return $item;
+        });
 
         return view('monitoring_evaluasi', compact(
             'skpEvaluasi', 
