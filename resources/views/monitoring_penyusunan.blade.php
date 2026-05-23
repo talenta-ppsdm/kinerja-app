@@ -4,6 +4,48 @@
 <div class="content" style="margin-left: 105px; padding: 8px;">
     <div class="org-container">
         <h2 class="text-light mb-3">Monitoring Penyusunan</h2>
+
+        <!-- Filter Data -->
+        <div class="block block-rounded">
+            <div class="block-content">
+                <form action="{{ route('penyusunan.index') }}" method="GET">
+                    <div class="row items-push">
+                        <div class="col-md-5">
+                            <label class="text-dark">Unit Organisasi</label>
+                            <select id="select-unor" name="unit_organisasi" class="form-control" onchange="updateUnker()">
+                                <option value="">-- Pilih Unor --</option>
+                                @foreach($listUnor as $unor)
+                                    <option value="{{ $unor->value }}">{{ $unor->value }}</option>
+                                @endforeach
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="text-dark">Unit Kerja</label>
+                            <select id="select-unker" name="unit_kerja" class="form-control">
+                                <option value="">-- Pilih Unit Kerja --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="text-dark">Status SKP</label>
+                            <select id="select-status-skp" name="status_skp" class="form-control">
+                                <option value="">-- Pilih Status SKP --</option>
+                                @foreach($listStatusSkp as $statusSkp)
+                                    <option value="{{ $statusSkp->value }}">{{ $statusSkp->value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">
+                                <label class="text-dark"></label>
+                                <i class="fa mr-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END Filter Data -->
         
         <!-- Import Penyusunan Data -->
         <form action="{{ route('import.penyusunan') }}" method="POST" enctype="multipart/form-data">
@@ -127,3 +169,25 @@
     </div>  
 </div>
 @endsection
+
+@push('js')
+<script>
+    const unkerData = JSON.parse('@json($listUnker)');
+    function updateUnker() {
+        const unorSelect = document.getElementById('select-unor');
+        const unkerSelect = document.getElementById('select-unker');
+        const selectedUnor = unorSelect.value;
+
+        unkerSelect.innerHTML = '<option value="">-- Pilih Unit Kerja --</option>';
+
+        if (selectedUnor && unkerData[selectedUnor]) {
+            unkerData[selectedUnor].forEach(unker => {
+                const option = document.createElement('option');
+                option.value = unker;
+                option.text = unker;
+                unkerSelect.add(option);
+            });
+        }
+    }
+</script>
+@endpush

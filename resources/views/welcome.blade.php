@@ -61,7 +61,7 @@
                     <!-- Card Hana -->
                     <div class="card-person">
                         <div class="card-header">
-                            <img src="{{ asset('images/hana.png') }}" alt="Hana">
+                            <img src="{{ asset('images/hana2.png') }}" alt="Hana">
                             <div class="ms-3">
                                 <span class="name-text">HANA RAFIFAH, S.P.W.K.</span>
                                 <span class="role-title">PENATA KELOLA PERUMAHAN AHLI PERTAMA</span>

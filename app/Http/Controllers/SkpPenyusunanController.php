@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusSkpEnum;
 use App\Enums\UnitOrganisasiEnum;
 use App\Repositories\SkpPenyusunanRepository;
 use App\Repositories\SkpRepository;
@@ -23,10 +24,32 @@ class SkpPenyusunanController extends Controller
         $this->skpRepository = $skpRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $listUnor = UnitOrganisasiEnum::cases();
+
         $skpPenyusunan = $this->skpPenyusunanRepository->with('masterSkp')->get();
-        return view('monitoring_penyusunan', compact('skpPenyusunan'));
+
+        // Filter Unit Kerja
+        $listUnker = [];
+        foreach ($listUnor as $unor) {
+            $listUnker[$unor->value] = $unor->getUnitKerja();
+        }
+
+        $listStatusSkp = StatusSkpEnum::cases();
+
+        $skpPenyusunan = $this->skpPenyusunanRepository->skpPenyusunanFilter(
+            $request->input('unit_organisasi'),
+            $request->input('unit_kerja'),
+            $request->input('status_skp'),
+        );
+
+        return view('monitoring_penyusunan', compact(
+            'skpPenyusunan',
+            'listUnor',
+            'listUnker',
+            'listStatusSkp',
+        ));
     }
 
     public function import(Request $request)

@@ -33,6 +33,7 @@ class SkpEvaluasiController extends Controller
         foreach ($listUnor as $unor) {
             $listUnker[$unor->value] = $unor->getUnitKerja();
         }
+        // TODO: Filter golongan
 
         $listPredicate = array_column(PredicateEnum::cases(), 'value');
         $skpEvaluasi = $this->skpEvaluasiRepository->skpEvaluasiFilter(
