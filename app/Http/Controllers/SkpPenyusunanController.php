@@ -55,6 +55,36 @@ class SkpPenyusunanController extends Controller
             $rekapStatusSkp[$key] = $skpPenyusunan->where("status_skp", $s);
         }
 
+        // Handle triwulan column
+        $skpPenyusunan = $skpPenyusunan->map(function ($item) {
+            $periode = $item->masterSkp->periode ?? null;
+            
+            // Default range triwulan kosong jika tidak ada periode
+            $twAwal = 0;
+            $twAkhir = 0;
+
+            if ($periode) {
+                try {
+                    // 1. Ambil Tanggal Awal (10 karakter pertama: "01-04-2026")
+                    $startDateString = substr($periode, 0, 10);
+                    $twAwal = Carbon::createFromFormat('d-m-Y', $startDateString)->quarter;
+
+                    // 2. Ambil Tanggal Akhir (10 karakter terakhir: "31-12-2026")
+                    $endDateString = substr($periode, -10);
+                    $twAkhir = Carbon::createFromFormat('d-m-Y', $endDateString)->quarter;
+                } catch (\Exception $e) {
+                    $twAwal = 0;
+                    $twAkhir = 0;
+                }
+            }
+
+            // Suntikkan data objek berupa range awal dan akhir
+            $item->tw_awal = $twAwal;
+            $item->tw_akhir = $twAkhir;
+            
+            return $item;
+        });
+
         return view('monitoring_penyusunan', compact(
             'skpPenyusunan',
             'listUnor',

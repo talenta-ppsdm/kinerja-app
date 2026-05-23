@@ -63,7 +63,6 @@
         <!-- END Filter Data -->
 
          <!-- Predicate Recapitulation -->
-          
         <div class="row">
             @php
                 $cards = [
@@ -139,6 +138,7 @@
                                 <th style="width: 20%;">Unit Kerja</th>
                                 <th style="width: 25%;">Pejabat Penilai Kinerja</th>
                                 <th style="width: 15%;">Periode</th>
+                                <th style="width: 15%;">Triwulan</th>
                                 <th style="width: 15%;">Status SKP</th>
                                 <th style="width: 15%;">Action</th>
                             </tr>
@@ -186,6 +186,17 @@
                                     </td>
                                     <td class="font-w600 font-size-sm">
                                         <p>{{ $penyusunan->masterSkp->periode ?? '' }}</p>
+                                    </td>
+                                    <td class="text-center font-size-sm" style="vertical-align: middle;">
+                                        <div class="d-flex justify-content-center">
+                                            @foreach([1, 2, 3, 4] as $q)
+                                                @if($q >= $penyusunan->tw_awal && $q <= $penyusunan->tw_akhir)
+                                                    <span class="badge badge-primary font-w700 mx-1" style="padding: 5px 8px;">TW {{$q}}</span>
+                                                @else
+                                                    <span class="badge badge-light text-muted font-w400 mx-1" style="padding: 5px 8px; opacity: 0.5;">TW {{$q}}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     </td>
 
                                     <td class="font-w600 font-size-sm">
