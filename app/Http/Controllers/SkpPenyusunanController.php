@@ -189,8 +189,18 @@ class SkpPenyusunanController extends Controller
         return view('edit_penyusunan', compact('skpPenyusunan', 'listUnor', 'listUnker'));
     }
 
-    public function update()
+    public function update(Request $request, int $idPenyusunan)
     {
-        
+        $request->validate([
+            'unit_organisasi' => 'required|string',
+            'unit_kerja' => 'required|string',
+        ]);
+
+        $data = $request->only(['unit_organisasi', 'unit_kerja']);
+        $idSkp = $this->skpPenyusunanRepository->find($idPenyusunan)->skp_id;
+
+        $this->skpRepository->update($data, $idSkp);
+
+        return redirect()->route('penyusunan.index')->with('success', 'Data Penyusunan SKP berhasil diperbarui!');
     }
 }
