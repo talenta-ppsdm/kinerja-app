@@ -36,7 +36,7 @@
                                 <option value="4">Triwulan IV</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="text-dark">Predikat</label>
                             <select id="select-predikat" name="predikat" class="form-control">
                                 <option value="">-- Pilih Predikat --</option>
@@ -57,7 +57,7 @@
                             <label class="text-dark">Pencarian</label>
                             <input type="text" class="form-control" name="search" placeholder="Masukkan nama, NIP, ....">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary">
                                 <label class="text-dark"></label>
                                 <i class="fa mr-1"></i> Filter
@@ -119,6 +119,20 @@
         <!-- Evaluation Data Table -->
         <div class="block block-rounded">
             <div class="block-content">
+                <form id="form-export" action="{{route('evaluasi.export')}}" method="GET" enctype="multipart/form-data" class="mb-3">
+                    <!-- Hidden fields untuk menangkap filter yang sedang aktif -->
+                    <input type="hidden" name="unit_organisasi" value="{{ request('unit_organisasi') }}">
+                    <input type="hidden" name="unit_kerja" value="{{ request('unit_kerja') }}">
+                    <input type="hidden" name="predikat" value="{{ request('predikat') }}">
+                    <input type="hidden" name="eselon" value="{{ request('eselon') }}">
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+
+                    <button type="submit" class="btn btn-primary d-flex align-items-center">
+                        <i class="fas fa-file-excel"></i>
+                        <span class="d-none d-sm-inline-block ml-2">Export</span>
+                    </button>
+                </form>
+
                 @if(session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Gagal!</strong> {{ session('error') }}
@@ -284,6 +298,10 @@
         var fileName = e.target.files[0].name;
         var nextSibling = e.target.nextElementSibling;
         nextSibling.innerText = fileName;
+    });
+
+    document.getElementById('form-export').addEventListener('click', function (e) {
+        e.stopPropagation();
     });
 </script>
 @endpush
