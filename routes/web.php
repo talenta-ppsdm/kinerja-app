@@ -19,6 +19,7 @@ Route::post('import/evaluasi-skp', [SkpEvaluasiController::class, 'import'])->na
 Route::get('/evaluasi/{id}/edit', [SkpEvaluasiController::class, 'edit'])->name('evaluasi.edit');
 Route::put('/evaluasi/{id}', [SkpEvaluasiController::class, 'update'])->name('evaluasi.update');
 Route::get('/evaluasi/export', [SkpEvaluasiController::class, 'export'])->name('evaluasi.export');
+Route::get('/evaluasi/delete-all', [SkpEvaluasiController::class, 'deleteAll'])->name('evaluasi.deleteAll');
 
 // Menuju halaman Monitoring Penyusunan
 Route::get('/monitoring-penyusunan', [SkpPenyusunanController::class, 'index'])->name('penyusunan.index');

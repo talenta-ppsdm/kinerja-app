@@ -123,4 +123,9 @@ class SkpEvaluasiRepository extends BaseRepository
         return $this->model->whereIn($column, $predicate)->get();
     }
 
+    public function deleteAll()
+    {
+        return $this->model->truncate();
+    }
+
 }

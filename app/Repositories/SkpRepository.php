@@ -37,8 +37,8 @@ class SkpRepository extends BaseRepository
         return $this->model->updateOrCreate(
             [
                 'nip'     => $attributes['nip'],
-                'jabatan' => $attributes['jabatan'],
-                'ppk'     => $attributes['ppk'],
+                'periode' => $attributes['periode'],
+                'tahun'   => $attributes['tahun'],
             ], 
             $values 
         );

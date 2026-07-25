@@ -197,8 +197,8 @@ class SkpEvaluasiController extends Controller
                 $skp = $this->skpRepository->updateOrCreateSkp(
                     [
                         'nip' => $dataSkp['nip'], 
-                        'jabatan' => $dataSkp['jabatan'],
-                        'ppk' => $dataSkp['ppk'],
+                        'periode' => $dataSkp['periode'],
+                        'tahun' => $dataSkp['tahun'],
                     ], $dataSkp
                 );
             
@@ -390,5 +390,16 @@ class SkpEvaluasiController extends Controller
         header('Content-Disposition: attachment;filename="Export_SKP_All_Triwulan.xlsx"');
         $writer->save('php://output');
         exit;
+   }
+
+   Public function deleteAll()
+   {
+        try {
+            $this->skpEvaluasiRepository->deleteAll();
+            return redirect()->back()->with('success', 'Semua data evaluasi SKP berhasil dihapus!');
+        } catch (\Exception $e) {
+            Log::error('Delete All Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menghapus semua data evaluasi SKP: ' . $e->getMessage());
+        }
    }
 }

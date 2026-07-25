@@ -118,39 +118,48 @@
 
         <!-- Evaluation Data Table -->
         <div class="block block-rounded">
-            <div class="block-content">
-                <form id="form-export" action="{{route('evaluasi.export')}}" method="GET" enctype="multipart/form-data" class="mb-3">
-                    <!-- Hidden fields untuk menangkap filter yang sedang aktif -->
+            <div class="d-flex align-items-center" style="padding-top: 20px; padding-bottom: 10px;  padding-left: 20px;">
+                <!-- Form tombol pertama (diberi mr-2 / me-2 agar dorong tombol di kanannya) -->
+                <form id="form-export" action="{{route('evaluasi.export')}}" method="GET" enctype="multipart/form-data" class="m-0 mr-2 me-2 d-inline-block">
+                    <!-- Hidden fields -->
                     <input type="hidden" name="unit_organisasi" value="{{ request('unit_organisasi') }}">
                     <input type="hidden" name="unit_kerja" value="{{ request('unit_kerja') }}">
                     <input type="hidden" name="predikat" value="{{ request('predikat') }}">
                     <input type="hidden" name="eselon" value="{{ request('eselon') }}">
                     <input type="hidden" name="search" value="{{ request('search') }}">
-
+            
                     <button type="submit" class="btn btn-primary d-flex align-items-center">
                         <i class="fas fa-file-excel"></i>
-                        <span class="d-none d-sm-inline-block ml-2">Export</span>
+                        <span class="d-none d-sm-inline-block ml-2 ms-2">Export</span>
                     </button>
                 </form>
 
-                @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Gagal!</strong> {{ session('error') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
+                <a href="{{ route('evaluasi.deleteAll') }}" id="btn-delete-all" class="btn btn-danger d-flex align-items-center">
+                    <i class="far fa-trash-alt mr-2 me-2"></i>
+                    <span>Hapus Seluruh Data</span>
+                </a>
+            </div>
+            
+            <!-- Alert di luar container flex -->
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close btn-close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close btn-close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
 
-                @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Berhasil!</strong> {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-
+            <div class="block-content">
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered table-vcenter">
                         <thead>
@@ -302,6 +311,29 @@
 
     document.getElementById('form-export').addEventListener('click', function (e) {
         e.stopPropagation();
+    });
+
+    //Sweet alert for bulk delete
+    document.getElementById('btn-delete-all').addEventListener('click', function(e) {
+        e.preventDefault(); 
+        
+        const targetUrl = this.getAttribute('href');
+
+        // Tampilkan SweetAlert
+        Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: "Seluruh data evaluasi akan dihapus dan tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus Semua!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = targetUrl;
+            }
+        });
     });
 </script>
 @endpush
